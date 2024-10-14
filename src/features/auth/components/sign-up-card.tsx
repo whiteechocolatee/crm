@@ -1,14 +1,6 @@
-import { FaGithub } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
 import DottedSeparator from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -17,20 +9,21 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useRegister } from '@/features/auth/api/use-register';
+import { registerSchema } from '@/features/auth/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { FaGithub } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 import z from 'zod';
 
-const formSchema = z.object({
-  name: z.string().trim().min(1, 'Name is required'),
-  email: z.string().trim().min(1, 'E-mail is required').email(),
-  password: z.string().min(8, 'Password must be at least 8 characters').trim(),
-});
-
 export function SignUpCard() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { mutate } = useRegister();
+
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       name: '',
       email: '',
@@ -38,8 +31,8 @@ export function SignUpCard() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = (values: z.infer<typeof registerSchema>) => {
+    mutate(values);
   };
 
   return (

@@ -1,12 +1,6 @@
 import DottedSeparator from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -21,23 +15,22 @@ import { useForm } from 'react-hook-form';
 import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import z from 'zod';
-
-const formSchema = z.object({
-  email: z.string().trim().min(1, 'E-mail is required').email(),
-  password: z.string().min(8, 'Password must be at least 8 characters').trim(),
-});
+import { loginSchema } from '../schemas';
+import { useLogin } from '../api/use-login';
 
 export function SignInCard() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { mutate } = useLogin();
+
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = (values: z.infer<typeof loginSchema>) => {
+    mutate(values);
   };
 
   return (
@@ -107,7 +100,7 @@ export function SignInCard() {
       <div className="px-7">
         <DottedSeparator />
       </div>
-      <CardContent className="flex items-center justify-center gap-1 p-7 text-muted-foreground text-xs">
+      <CardContent className="flex items-center justify-center gap-1 p-7 text-xs text-muted-foreground">
         If you still dont have an account you can{' '}
         <Link className="text-blue-700 underline" href="/sign-up">
           create
