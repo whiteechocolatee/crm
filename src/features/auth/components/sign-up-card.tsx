@@ -1,3 +1,5 @@
+'use client';
+
 import DottedSeparator from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,7 +22,7 @@ import { FcGoogle } from 'react-icons/fc';
 import z from 'zod';
 
 export function SignUpCard() {
-  const { mutate } = useRegister();
+  const { mutate, isPending } = useRegister();
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -52,7 +54,12 @@ export function SignUpCard() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} type="text" placeholder="Name" />
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      type="text"
+                      placeholder="Name"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -64,7 +71,12 @@ export function SignUpCard() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} type="email" placeholder="E-mail" />
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      type="email"
+                      placeholder="E-mail"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -76,14 +88,19 @@ export function SignUpCard() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} type="password" placeholder="Password" />
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      type="password"
+                      placeholder="Password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button size="lg" className="w-full" disabled={false}>
-              Sign In
+            <Button disabled={isPending} size="lg" className="w-full">
+              Sign Up
             </Button>
           </form>
         </Form>
@@ -96,7 +113,7 @@ export function SignUpCard() {
           variant="secondary"
           size="lg"
           className="w-full"
-          disabled={false}
+          disabled={isPending}
         >
           <FcGoogle className="mr-2 size-5" />
           Sign In with Google
@@ -105,7 +122,7 @@ export function SignUpCard() {
           variant="secondary"
           size="lg"
           className="w-full"
-          disabled={false}
+          disabled={isPending}
         >
           <FaGithub className="mr-2 size-5" />
           Sign In with GitHub
@@ -116,7 +133,11 @@ export function SignUpCard() {
       </div>
       <CardContent className="flex items-center justify-center gap-1 p-7 text-xs text-muted-foreground">
         If you already have an account please{' '}
-        <Link className="text-blue-700 underline" href="/sign-in">
+        <Link
+          aria-disabled={isPending}
+          className="text-blue-700 underline"
+          href="/sign-in"
+        >
           sign in
         </Link>{' '}
         into it.

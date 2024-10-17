@@ -1,3 +1,5 @@
+'use client';
+
 import DottedSeparator from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,7 +21,7 @@ import { loginSchema } from '../schemas';
 import { useLogin } from '../api/use-login';
 
 export function SignInCard() {
-  const { mutate } = useLogin();
+  const { mutate, isPending } = useLogin();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -50,7 +52,12 @@ export function SignInCard() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} type="email" placeholder="E-mail" />
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      type="email"
+                      placeholder="E-mail"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -62,7 +69,12 @@ export function SignInCard() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} type="password" placeholder="Password" />
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      type="password"
+                      placeholder="Password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -79,19 +91,19 @@ export function SignInCard() {
       </div>
       <CardContent className="flex flex-col gap-y-4 p-7">
         <Button
+          disabled={isPending}
           variant="secondary"
           size="lg"
           className="w-full"
-          disabled={false}
         >
           <FcGoogle className="mr-2 size-5" />
           Sign In with Google
         </Button>
         <Button
+          disabled={isPending}
           variant="secondary"
           size="lg"
           className="w-full"
-          disabled={false}
         >
           <FaGithub className="mr-2 size-5" />
           Sign In with GitHub
@@ -102,7 +114,11 @@ export function SignInCard() {
       </div>
       <CardContent className="flex items-center justify-center gap-1 p-7 text-xs text-muted-foreground">
         If you still dont have an account you can{' '}
-        <Link className="text-blue-700 underline" href="/sign-up">
+        <Link
+          aria-disabled={isPending}
+          className="text-blue-700 underline"
+          href="/sign-up"
+        >
           create
         </Link>{' '}
         it here.
