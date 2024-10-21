@@ -1,9 +1,15 @@
-import React from 'react'
+import { getCurrent } from '@/features/auth/actions';
+import { redirect } from 'next/navigation';
+import React from 'react';
 
-function WorkspaceIdPage() {
-  return (
-    <div>WorkspaceIdPage</div>
-  )
+async function WorkspaceIdPage() {
+  const user = await getCurrent();
+
+  if (!user) {
+    redirect('/sign-in');
+  }
+
+  return <div>WorkspaceIdPage</div>;
 }
 
-export default WorkspaceIdPage
+export default WorkspaceIdPage;
