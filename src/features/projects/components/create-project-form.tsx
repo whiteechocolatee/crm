@@ -52,8 +52,8 @@ function CreateProjectForm({ onCancel }: CreateProjectFormProps) {
     mutate(
       { form: finalValues },
       {
-        onSuccess: () => {
-          // TODO: redirect to
+        onSuccess: ({ data }) => {
+          router.push(`/workspaces/${workspaceId}/projects/${data.$id}`);
         },
       },
     );
