@@ -72,11 +72,11 @@ function DataFilters({}: DataFiltersProps) {
         <SelectTrigger className="h-8 w-full lg:w-auto">
           <div className="flex items-center pr-2">
             <ListChecks className="mr-2 size-4 text-muted-foreground" />
-            <SelectValue placeholder="All projects" />
+            <SelectValue placeholder="Все статусы" />
           </div>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All statuses</SelectItem>
+          <SelectItem value="all">Все статусы</SelectItem>
           <SelectSeparator />
           <SelectItem value={TaskStatus.BACKLOG}>Backlog</SelectItem>
           <SelectItem value={TaskStatus.IN_PROGRESS}>In progress</SelectItem>
@@ -92,11 +92,11 @@ function DataFilters({}: DataFiltersProps) {
         <SelectTrigger className="h-8 w-full lg:w-auto">
           <div className="flex items-center pr-2">
             <UserIcon className="mr-2 size-4 text-muted-foreground" />
-            <SelectValue placeholder="All assignees" />
+            <SelectValue placeholder="Все ответственные" />
           </div>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All assignees</SelectItem>
+          <SelectItem value="all">Все ответственные</SelectItem>
           <SelectSeparator />
           {memberOptions?.map(member => (
             <SelectItem key={member.id} value={member.id}>
@@ -112,11 +112,11 @@ function DataFilters({}: DataFiltersProps) {
         <SelectTrigger className="h-8 w-full lg:w-auto">
           <div className="flex items-center pr-2">
             <Folder className="mr-2 size-4 text-muted-foreground" />
-            <SelectValue placeholder="All projects" />
+            <SelectValue placeholder="Все проекты" />
           </div>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All assignees</SelectItem>
+          <SelectItem value="all">Все проекты</SelectItem>
           <SelectSeparator />
           {projectOptions?.map(project => (
             <SelectItem key={project.id} value={project.id}>
@@ -126,7 +126,7 @@ function DataFilters({}: DataFiltersProps) {
         </SelectContent>
       </Select>
       <DatePicker
-        placeholder="Due date"
+        placeholder="Дата сдачи"
         className="h-8 w-full lg:w-auto"
         value={dueDate ? new Date(dueDate) : undefined}
         onChange={date =>
