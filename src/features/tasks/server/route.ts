@@ -1,15 +1,15 @@
+import { DATABASE_ID, MEMBERS_ID, PROJECTS_ID, TASKS_ID } from '@/config';
+import { MemberRole } from '@/features/members/types';
+import { ProjectsType } from '@/features/projects/types';
+import { getMember } from '@/features/workspaces/utils';
+import { createAdminClient } from '@/lib/appwrite';
 import { sessionMiddleware } from '@/lib/session-middleware';
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
-import { createTaskSchema } from '../schemas';
-import { getMember } from '@/features/workspaces/utils';
-import { DATABASE_ID, MEMBERS_ID, PROJECTS_ID, TASKS_ID } from '@/config';
 import { ID, Query } from 'node-appwrite';
 import { z } from 'zod';
+import { createTaskSchema } from '../schemas';
 import { Task, TaskStatus } from '../types';
-import { createAdminClient } from '@/lib/appwrite';
-import { ProjectsType } from '@/features/projects/types';
-import { MemberRole } from '@/features/members/types';
 
 const app = new Hono()
   .post(
@@ -318,6 +318,79 @@ const app = new Hono()
         assignee,
       },
     });
-  });
+  })
+  .post(
+    '/bulk-update',
+    sessionMiddleware,
+    zValidator(
+      'json',
+      z.object({
+        tasks: z.array(
+          z.object({
+            $id: z.string(),
+            status: z.nativeEnum(TaskStatus),
+            position: z.number().int().positive().min(1000).max(1_000_000),
+          }),
+        ),
+      }),
+    ),
+    async c => {
+      const user = c.get('user');
+      const databases = c.get('databases');
+
+      const { tasks } = c.req.valid('json');
+
+      const tasksToUpdate = await databases.listDocuments<Task>(
+        DATABASE_ID,
+        TASKS_ID,
+        [
+          Query.contains(
+            '$id',
+            tasks.map(task => task.$id),
+          ),
+        ],
+      );
+
+      const workspaceIds = new Set(
+        tasksToUpdate.documents.map(task => task.workspaceId),
+      );
+
+      if (workspaceIds.size !== 1) {
+        return c.json({ error: 'Invalid request' }, 400);
+      }
+
+      const workspaceId = workspaceIds.values().next().value;
+
+      if (!workspaceId) {
+        return c.json({ error: 'Invalid request' }, 400);
+      }
+
+      const member = await getMember({
+        databases,
+        workspaceId,
+        userId: user.$id,
+      });
+
+      if (!member) {
+        return c.json({ error: 'Unauthorized' }, 401);
+      }
+
+      const updatedTasks = await Promise.all(
+        tasks.map(async task => {
+          return await databases.updateDocument<Task>(
+            DATABASE_ID,
+            TASKS_ID,
+            task.$id,
+            {
+              status: task.status,
+              position: task.position,
+            },
+          );
+        }),
+      );
+
+      return c.json({ data: updatedTasks });
+    },
+  );
 
 export default app;

@@ -4,7 +4,7 @@ import DottedSeparator from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader, Plus } from 'lucide-react';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useCreateTaskModal } from '../hooks/use-create-task-modal';
 import { useGetTasks } from '../api/use-get-tasks';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
@@ -13,6 +13,9 @@ import DataFilters from './data-filters';
 import { useTaskFilters } from '../api/use-task-filters';
 import { DataTable } from './data-table';
 import { columns } from './columns';
+import DataKanban from './data-kanban';
+import { useBulkUpdateTasks } from '../api/use-bulk-update-tasks';
+import { TaskStatus } from '../types';
 
 function TaskViewSwitcher() {
   const [view, setView] = useQueryState('task-view', {
@@ -21,6 +24,8 @@ function TaskViewSwitcher() {
 
   const [{ projectId, assigneeId, status, dueDate, search }, setFilters] =
     useTaskFilters();
+  const { mutate: bulkUpdate, isPending: isBulkUpdatePending } =
+    useBulkUpdateTasks();
 
   const workspaceId = useWorkspaceId();
   const { open } = useCreateTaskModal();
@@ -33,6 +38,17 @@ function TaskViewSwitcher() {
     dueDate,
     search,
   });
+
+  const onKanbanChange = useCallback(
+    (tasks: { $id: string; status: TaskStatus; position: number }[]) => {
+      bulkUpdate({
+        json: {
+          tasks,
+        },
+      });
+    },
+    [],
+  );
 
   return (
     <Tabs
@@ -71,7 +87,10 @@ function TaskViewSwitcher() {
               <DataTable columns={columns} data={tasks?.documents ?? []} />
             </TabsContent>
             <TabsContent className="mt-0" value="kanban">
-              {JSON.stringify(tasks)}
+              <DataKanban
+                onChange={onKanbanChange}
+                data={tasks?.documents ?? []}
+              />
             </TabsContent>
             <TabsContent className="mt-0" value="calendar">
               {JSON.stringify(tasks)}
