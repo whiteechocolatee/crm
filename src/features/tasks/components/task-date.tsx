@@ -13,19 +13,20 @@ function TaskDate({ value, className = '' }: TaskDateProps) {
   const endDate = new Date(value);
   const diffInDays = differenceInDays(endDate, today);
 
-  let textColor = 'text-muted-foreground';
+  let bgColor = 'bg-muted-foreground';
 
   if (diffInDays <= 3) {
-    textColor = 'text-red-500';
+    bgColor = 'bg-red-500';
   } else if (diffInDays <= 7) {
-    textColor = 'text-orange-500';
+    bgColor = 'bg-orange-500';
   } else if (diffInDays <= 14) {
-    textColor = 'text-yellow-500';
+    bgColor = 'bg-yellow-500';
   }
 
   return (
-    <div className={textColor}>
-      <span className={cn('truncate font-mono font-medium', className)}>
+    <div className={cn('flex items-center gap-2')}>
+      <div className={cn(bgColor, 'size-2 rounded-full')} />
+      <span className={cn('truncate font-medium', className)}>
         {format(value, 'PPP', { locale: ru })}
       </span>
     </div>

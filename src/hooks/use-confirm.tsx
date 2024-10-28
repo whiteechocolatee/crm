@@ -1,23 +1,13 @@
 'use client';
 
 import ResponsiveModal from '@/components/responsive-modal';
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
 } from '@/components/ui/card';
-import { AlertCircle, AlertOctagon } from 'lucide-react';
 import { useState } from 'react';
 
 export const useConfirm = (
@@ -61,14 +51,14 @@ export const useConfirm = (
               variant="secondary"
               onClick={handleCancel}
             >
-              Cancel
+              Отменить
             </Button>
             <Button
               className="w-full"
               onClick={handleConfirm}
               variant="destructive"
             >
-              Continue
+              Продолжить
             </Button>
           </div>
         </Card>
