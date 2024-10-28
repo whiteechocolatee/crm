@@ -22,7 +22,7 @@ const statusIconMap: Record<TaskStatus, React.ReactNode> = {
   [TaskStatus.BACKLOG]: (
     <CircleDashedIcon className="size-[18px] text-pink-400" />
   ),
-  [TaskStatus.TODO]: <CircleIcon className="size-[18px] text-red-400" />,
+  [TaskStatus.TODO]: <CircleIcon className="size-[18px] text-purple-400" />,
   [TaskStatus.IN_PROGRESS]: (
     <CircleDotDashedIcon className="size-[18px] text-yellow-400" />
   ),
