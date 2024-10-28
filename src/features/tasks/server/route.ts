@@ -1,14 +1,15 @@
+import { DATABASE_ID, MEMBERS_ID, PROJECTS_ID, TASKS_ID } from '@/config';
+import { MemberRole } from '@/features/members/types';
+import { ProjectsType } from '@/features/projects/types';
+import { getMember } from '@/features/workspaces/utils';
+import { createAdminClient } from '@/lib/appwrite';
 import { sessionMiddleware } from '@/lib/session-middleware';
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
-import { createTaskSchema } from '../schemas';
-import { getMember } from '@/features/workspaces/utils';
-import { DATABASE_ID, MEMBERS_ID, PROJECTS_ID, TASKS_ID } from '@/config';
 import { ID, Query } from 'node-appwrite';
 import { z } from 'zod';
-import { TaskStatus } from '../types';
-import { createAdminClient } from '@/lib/appwrite';
-import { ProjectsType } from '@/features/projects/types';
+import { createTaskSchema } from '../schemas';
+import { Task, TaskStatus } from '../types';
 
 const app = new Hono()
   .post(
@@ -136,7 +137,11 @@ const app = new Hono()
         query.push(Query.search('name', search));
       }
 
-      const tasks = await databases.listDocuments(DATABASE_ID, TASKS_ID, query);
+      const tasks = await databases.listDocuments<Task>(
+        DATABASE_ID,
+        TASKS_ID,
+        query,
+      );
 
       const projectIds = tasks.documents.map(task => task.projectId);
       const assigneeIds = tasks.documents.map(task => task.assigneeId);
@@ -187,6 +192,204 @@ const app = new Hono()
           documents: populatedTasks,
         },
       });
+    },
+  )
+  .delete('/:taskId', sessionMiddleware, async c => {
+    const user = c.get('user');
+    const databases = c.get('databases');
+    const { taskId } = c.req.param();
+
+    const task = await databases.getDocument<Task>(
+      DATABASE_ID,
+      TASKS_ID,
+      taskId,
+    );
+
+    const member = await getMember({
+      databases,
+      workspaceId: task.workspaceId,
+      userId: user.$id,
+    });
+
+    if (!member || member.role !== MemberRole.ADMIN) {
+      return c.json({ error: 'Unauthorized' }, 401);
+    }
+
+    await databases.deleteDocument(DATABASE_ID, TASKS_ID, taskId);
+
+    return c.json({
+      data: {
+        $id: task.$id,
+      },
+    });
+  })
+  .patch(
+    '/:taskId',
+    sessionMiddleware,
+    zValidator('json', createTaskSchema.partial()),
+    async c => {
+      const user = c.get('user');
+      const databases = c.get('databases');
+
+      const { taskId } = c.req.param();
+
+      const { name, projectId, description, status, dueDate, assigneeId } =
+        c.req.valid('json');
+
+      const existingTask = await databases.getDocument<Task>(
+        DATABASE_ID,
+        TASKS_ID,
+        taskId,
+      );
+
+      const member = await getMember({
+        databases,
+        workspaceId: existingTask.workspaceId,
+        userId: user.$id,
+      });
+
+      if (!member) {
+        return c.json({ error: 'Unauthorized' }, 401);
+      }
+
+      const newTask = await databases.updateDocument(
+        DATABASE_ID,
+        TASKS_ID,
+        taskId,
+        {
+          name,
+          projectId,
+          description,
+          status,
+          dueDate,
+          assigneeId,
+        },
+      );
+
+      return c.json({ data: newTask });
+    },
+  )
+  .get('/:taskId', sessionMiddleware, async c => {
+    const currentUser = c.get('user');
+    const databases = c.get('databases');
+    const { users } = await createAdminClient();
+    const { taskId } = c.req.param();
+
+    const task = await databases.getDocument<Task>(
+      DATABASE_ID,
+      TASKS_ID,
+      taskId,
+    );
+
+    const currentMember = await getMember({
+      databases,
+      workspaceId: task.workspaceId,
+      userId: currentUser.$id,
+    });
+
+    if (!currentMember) {
+      return c.json({ error: 'Unauthorized' }, 401);
+    }
+
+    const project = await databases.getDocument<ProjectsType>(
+      DATABASE_ID,
+      PROJECTS_ID,
+      task.projectId,
+    );
+
+    const member = await databases.getDocument(
+      DATABASE_ID,
+      MEMBERS_ID,
+      task.assigneeId,
+    );
+
+    const user = await users.get(member.userId);
+
+    const assignee = {
+      ...member,
+      name: user.name,
+      email: user.email,
+    };
+
+    return c.json({
+      data: {
+        ...task,
+        project,
+        assignee,
+      },
+    });
+  })
+  .post(
+    '/bulk-update',
+    sessionMiddleware,
+    zValidator(
+      'json',
+      z.object({
+        tasks: z.array(
+          z.object({
+            $id: z.string(),
+            status: z.nativeEnum(TaskStatus),
+            position: z.number().int().positive().min(1000).max(1_000_000),
+          }),
+        ),
+      }),
+    ),
+    async c => {
+      const user = c.get('user');
+      const databases = c.get('databases');
+
+      const { tasks } = c.req.valid('json');
+
+      const tasksToUpdate = await databases.listDocuments<Task>(
+        DATABASE_ID,
+        TASKS_ID,
+        [
+          Query.contains(
+            '$id',
+            tasks.map(task => task.$id),
+          ),
+        ],
+      );
+
+      const workspaceIds = new Set(
+        tasksToUpdate.documents.map(task => task.workspaceId),
+      );
+
+      if (workspaceIds.size !== 1) {
+        return c.json({ error: 'Invalid request' }, 400);
+      }
+
+      const workspaceId = workspaceIds.values().next().value;
+
+      if (!workspaceId) {
+        return c.json({ error: 'Invalid request' }, 400);
+      }
+
+      const member = await getMember({
+        databases,
+        workspaceId,
+        userId: user.$id,
+      });
+
+      if (!member) {
+        return c.json({ error: 'Unauthorized' }, 401);
+      }
+
+      const updatedTasks = await Promise.all(
+        tasks.map(async task => {
+          return await databases.updateDocument<Task>(
+            DATABASE_ID,
+            TASKS_ID,
+            task.$id,
+            {
+              status: task.status,
+              position: task.position,
+            },
+          );
+        }),
+      );
+
+      return c.json({ data: updatedTasks });
     },
   );
 
