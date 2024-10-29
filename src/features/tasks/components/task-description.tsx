@@ -12,7 +12,7 @@ type TaskDescriptionProps = {
 
 function TaskDescription({ task }: TaskDescriptionProps) {
   const [isEditable, setIsEditable] = useState(false);
-  const [value, setValue] = useState<string>('');
+  const [value, setValue] = useState<string>(task.description || '');
 
   const { mutate, isPending } = useUpdateTask();
 
@@ -56,7 +56,7 @@ function TaskDescription({ task }: TaskDescriptionProps) {
         <div className="flex flex-col gap-y-4">
           <Textarea
             placeholder="Сделать волосатого на похер"
-            value={value || task.description}
+            value={value}
             rows={4}
             onChange={e => setValue(e.target.value)}
           />
