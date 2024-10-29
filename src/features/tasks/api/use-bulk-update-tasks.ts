@@ -22,17 +22,17 @@ export const useBulkUpdateTasks = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update task');
+        throw new Error('Ошибка при обновлении');
       }
 
       return await response.json();
     },
     onSuccess: () => {
-      toast.success('Task updated!');
+      toast.success('Задача обновлена!');
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
     onError: () => {
-      toast.error('Failed to update tasks!');
+      toast.error('Возникла проблема при обновлении задачи!');
     },
   });
 

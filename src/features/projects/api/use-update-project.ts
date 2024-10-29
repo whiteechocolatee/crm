@@ -22,7 +22,7 @@ export const useUpdateProject = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update project');
+        throw new Error('Ошибка при обновлении проекта');
       }
 
       return await response.json();

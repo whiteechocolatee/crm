@@ -18,18 +18,18 @@ export const useLogin = () => {
       const response = await client.api.auth.login.$post({ json });
 
       if (!response.ok) {
-        throw new Error('Something went wrong');
+        throw new Error('Что то пошло не так');
       }
 
       return await response.json();
     },
     onSuccess: () => {
-      toast.success('Logged in!');
+      toast.success('Вы вошли!');
       router.refresh();
       queryClient.invalidateQueries({ queryKey: ['current'] });
     },
     onError: () => {
-      toast.error('Failed to login!');
+      toast.error('Не удалось войти!');
     },
   });
 

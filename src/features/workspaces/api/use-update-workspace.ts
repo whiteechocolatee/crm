@@ -22,18 +22,18 @@ export const useUpdateWorkspace = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Something went wrong');
+        throw new Error('Что то пошло не так');
       }
 
       return await response.json();
     },
     onSuccess: ({ data }) => {
-      toast.success('Workspace updated!');
+      toast.success('Рабочая область обновлена!');
       queryClient.invalidateQueries({ queryKey: ['workspaces'] });
       queryClient.invalidateQueries({ queryKey: ['workspace', data.$id] });
     },
     onError: () => {
-      toast.error('Failed to update workspace!');
+      toast.error('Ошибка при удалении рабочей области!');
     },
   });
 

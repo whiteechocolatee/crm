@@ -14,7 +14,7 @@ export const useGetWorkspace = ({ workspaceId }: useGetWorkspaceProps) => {
       });
 
       if (!response.ok) {
-        throw new Error('Something went wrong');
+        throw new Error('Что то пошло не так');
       }
 
       const { data } = await response.json();

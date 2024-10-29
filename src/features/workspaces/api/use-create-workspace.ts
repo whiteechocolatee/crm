@@ -14,17 +14,17 @@ export const useCreateWorkspace = () => {
       const response = await client.api.workspaces.$post({ form });
 
       if (!response.ok) {
-        throw new Error('Something went wrong');
+        throw new Error('Что то пошло не так');
       }
 
       return await response.json();
     },
     onSuccess: () => {
-      toast.success('Workspace created!');
+      toast.success('Рабочая область создана!');
       queryClient.invalidateQueries({ queryKey: ['workspaces'] });
     },
     onError: () => {
-      toast.error('Failed to create workspace!');
+      toast.error('Ошибка при создании рабочей области!');
     },
   });
 

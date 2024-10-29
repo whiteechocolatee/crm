@@ -20,18 +20,18 @@ export const useRegister = () => {
       const response = await client.api.auth.register.$post({ json });
 
       if (!response.ok) {
-        throw new Error('Something went wrong');
+        throw new Error('Что то пошло не так');
       }
 
       return await response.json();
     },
     onSuccess: () => {
-      toast.success('Registered!');
+      toast.success('Вы зарегистрировались!');
       router.refresh();
       queryClient.invalidateQueries({ queryKey: ['current'] });
     },
     onError: () => {
-      toast.error('Failed to register!');
+      toast.error('Ошибка при регистрации!');
     },
   });
 

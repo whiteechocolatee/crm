@@ -24,13 +24,13 @@ export const useJoinWorkspace = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Something went wrong');
+        throw new Error('Что то пошло не так');
       }
 
       return await response.json();
     },
     onSuccess: ({ data }) => {
-      toast.success('Joined workspace!');
+      toast.success('Вы присоединились к рабочей области!');
       queryClient.invalidateQueries({ queryKey: ['workspaces'] });
       queryClient.invalidateQueries({
         queryKey: ['workspaces', data.workspace.$id],

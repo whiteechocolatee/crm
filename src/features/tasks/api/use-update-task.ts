@@ -24,19 +24,19 @@ export const useUpdateTask = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update task');
+        throw new Error('Ошибка при обновлении задачи');
       }
 
       return await response.json();
     },
     onSuccess: ({ data }) => {
       router.refresh();
-      toast.success('Task updated!');
+      toast.success('Задача обновлена!');
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       queryClient.invalidateQueries({ queryKey: ['task', data.$id] });
     },
     onError: () => {
-      toast.error('Failed to update tasks!');
+      toast.error('Возникла проблема при обновлении задачи!');
     },
   });
 

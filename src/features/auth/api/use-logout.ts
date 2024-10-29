@@ -15,19 +15,19 @@ export const useLogout = () => {
       const response = await client.api.auth.logout.$post();
 
       if (!response.ok) {
-        throw new Error('Something went wrong');
+        throw new Error('Что то пошло не так');
       }
 
       return await response.json();
     },
     onSuccess: () => {
-      toast.success('Logged out!');
+      toast.success('Вы вышли!');
       router.refresh();
       queryClient.invalidateQueries({ queryKey: ['current'] });
       queryClient.invalidateQueries({ queryKey: ['workspaces'] });
     },
     onError: () => {
-      toast.error('Failed to logout!');
+      toast.error('Не удалось выйти!');
     },
   });
 
