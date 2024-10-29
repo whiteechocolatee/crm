@@ -21,6 +21,8 @@ export const useCreateTask = () => {
     },
     onSuccess: () => {
       toast.success('Задача создана!');
+      queryClient.invalidateQueries({ queryKey: ['project-analytics'] });
+      queryClient.invalidateQueries({ queryKey: ['workspace-analytics'] });
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
     onError: () => {
