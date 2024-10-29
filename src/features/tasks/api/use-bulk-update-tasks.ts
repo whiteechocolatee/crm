@@ -13,7 +13,6 @@ type RequestType = InferRequestType<
 >;
 
 export const useBulkUpdateTasks = () => {
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
@@ -28,8 +27,7 @@ export const useBulkUpdateTasks = () => {
 
       return await response.json();
     },
-    onSuccess: ({ data }) => {
-      router.refresh();
+    onSuccess: () => {
       toast.success('Task updated!');
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },

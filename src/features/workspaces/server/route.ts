@@ -235,6 +235,34 @@ const app = new Hono()
 
       return c.json({ data: workspace });
     },
-  );
+  )
+  .get('/:workspaceId', sessionMiddleware, async c => {
+    const databases = c.get('databases');
+    const user = c.get('user');
+
+    const { workspaceId } = c.req.param();
+
+    const member = await getMember({
+      databases,
+      workspaceId,
+      userId: user.$id,
+    });
+
+    if (!member) {
+      return c.json({ error: 'Unauthorized' }, 401);
+    }
+
+    const workspace = await databases.getDocument<WorkspaceType>(
+      DATABASE_ID,
+      WORKSPACE_ID,
+      workspaceId,
+    );
+
+    if (!workspace) {
+      return c.json({ error: 'Workspace not found' }, 404);
+    }
+
+    return c.json({ data: workspace });
+  });
 
 export default app;

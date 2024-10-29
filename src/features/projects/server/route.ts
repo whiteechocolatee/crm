@@ -1,4 +1,4 @@
-import { DATABASE_ID, IMAGES_BUCKET_ID, PROJECTS_ID } from '@/config';
+import { DATABASE_ID, IMAGES_BUCKET_ID, PROJECTS_ID, TASKS_ID } from '@/config';
 import { MemberRole } from '@/features/members/types';
 import { getMember } from '@/features/workspaces/utils';
 import { sessionMiddleware } from '@/lib/session-middleware';
@@ -178,6 +178,30 @@ const app = new Hono()
         $id: projectId,
       },
     });
+  })
+  .get('/:projectId', sessionMiddleware, async c => {
+    const databases = c.get('databases');
+    const user = c.get('user');
+
+    const { projectId } = c.req.param();
+
+    const project = await databases.getDocument<ProjectsType>(
+      DATABASE_ID,
+      PROJECTS_ID,
+      projectId,
+    );
+
+    const member = await getMember({
+      databases,
+      workspaceId: project.workspaceId,
+      userId: user.$id,
+    });
+
+    if (!member) {
+      return c.json({ error: 'Unauthorized' }, 401);
+    }
+
+    return c.json({ data: project });
   });
 
 export default app;

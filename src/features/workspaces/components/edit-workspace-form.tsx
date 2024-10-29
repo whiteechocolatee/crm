@@ -104,14 +104,7 @@ function EditWorkspaceForm({
       image: values.image instanceof File ? values.image : '',
     };
 
-    mutate(
-      { form: finalValues, param: { workspaceId: initialValues.$id } },
-      {
-        onSuccess: ({ data }) => {
-          router.push(`/workspaces/${data.$id}`);
-        },
-      },
-    );
+    mutate({ form: finalValues, param: { workspaceId: initialValues.$id } });
   };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {

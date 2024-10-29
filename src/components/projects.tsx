@@ -3,6 +3,7 @@
 import { useGetProjects } from '@/features/projects/api/use-get-projects';
 import ProjectsAvatar from '@/features/projects/components/projects-avatar';
 import { useCreateProjectsModal } from '@/features/projects/hooks/use-create-project-modal';
+import { useProjectId } from '@/features/projects/hooks/use-project-id';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -11,6 +12,7 @@ import { RiAddCircleFill } from 'react-icons/ri';
 
 function Projects() {
   const workspaceId = useWorkspaceId();
+  const projectId = useProjectId();
   const pathname = usePathname();
 
   const { open } = useCreateProjectsModal();
