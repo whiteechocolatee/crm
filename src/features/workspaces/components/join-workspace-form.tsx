@@ -31,9 +31,8 @@ function JoinWorkspaceForm({ initialValues }: JoinWorkspaceFormProps) {
     mutate(
       { param: { workspaceId }, json: { code: inviteCode } },
       {
-        onSuccess: data => {
-          // TODO: fix redirect
-          router.push(`/workspaces/${data.data.$id}`);
+        onSuccess: ({ data }) => {
+          router.push(`/workspaces/${data.$id}`);
         },
       },
     );
@@ -42,10 +41,12 @@ function JoinWorkspaceForm({ initialValues }: JoinWorkspaceFormProps) {
   return (
     <Card className="h-full w-full border-none shadow-none">
       <CardHeader className="p-7">
-        <CardTitle className="text-xl font-bold">Join Workspace</CardTitle>
+        <CardTitle className="text-xl font-bold">
+          Присоединиться к рабочей области
+        </CardTitle>
         <CardDescription>
-          You've been invited to join a <strong>{initialValues.name}</strong>{' '}
-          workspace.
+          Вас пригласили в рабочую область <strong>{initialValues.name}</strong>
+          .
         </CardDescription>
       </CardHeader>
       <div className="px-7">
@@ -61,7 +62,7 @@ function JoinWorkspaceForm({ initialValues }: JoinWorkspaceFormProps) {
             disabled={isPending}
             className="w-full lg:w-fit"
           >
-            <Link href="/">Cancel</Link>
+            <Link href="/">Отменить</Link>
           </Button>
           <Button
             disabled={isPending}
@@ -70,7 +71,7 @@ function JoinWorkspaceForm({ initialValues }: JoinWorkspaceFormProps) {
             type="button"
             className="w-full lg:w-fit"
           >
-            Join workspace
+            Присоединиться
           </Button>
         </div>
       </CardContent>

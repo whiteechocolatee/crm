@@ -119,7 +119,7 @@ function EditWorkspaceForm({
 
   const handleCopyInviteLink = () => {
     navigator.clipboard.writeText(fullInviteLink).then(() => {
-      toast.success('Invite link copied to clipboard!');
+      toast.success('Ссылка-приглашение скопирована!');
     });
   };
 

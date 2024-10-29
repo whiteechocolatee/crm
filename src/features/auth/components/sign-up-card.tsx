@@ -47,7 +47,7 @@ export function SignUpCard() {
         <DottedSeparator />
       </div>
       <CardContent className="p-7">
-        <Form {...form}>
+        {/* <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               name="name"
@@ -104,7 +104,7 @@ export function SignUpCard() {
               Зарегистрироваться
             </Button>
           </form>
-        </Form>
+        </Form> */}
       </CardContent>
       <div className="px-7">
         <DottedSeparator />

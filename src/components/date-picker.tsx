@@ -7,6 +7,7 @@ import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Calendar } from './ui/calendar';
+import { ru } from 'date-fns/locale';
 
 type DatePickerProps = {
   value: Date | undefined;
@@ -39,6 +40,7 @@ function DatePicker({
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
+          locale={ru}
           mode="single"
           selected={value}
           onSelect={date => onChange(date as Date)}
