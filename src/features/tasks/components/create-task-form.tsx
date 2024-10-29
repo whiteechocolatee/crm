@@ -69,7 +69,7 @@ function CreateTaskForm({
   return (
     <Card className="h-full w-full border-none shadow-none">
       <CardHeader className="flex p-7">
-        <CardTitle className="text-xl font-bold">Create a new Task</CardTitle>
+        <CardTitle className="text-xl font-bold">Создать задачу</CardTitle>
       </CardHeader>
       <div className="px-7">
         <DottedSeparator />
@@ -83,11 +83,11 @@ function CreateTaskForm({
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Task name</FormLabel>
+                    <FormLabel>Название задачи</FormLabel>
                     <FormControl>
                       <Input
                         type="text"
-                        placeholder="Project name"
+                        placeholder="Волосявка адаптив"
                         {...field}
                       />
                     </FormControl>
@@ -100,7 +100,7 @@ function CreateTaskForm({
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Due Date</FormLabel>
+                    <FormLabel>Дата сдачи</FormLabel>
                     <FormControl>
                       <DatePicker {...field} />
                     </FormControl>
@@ -113,14 +113,14 @@ function CreateTaskForm({
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Assignee </FormLabel>
+                    <FormLabel>Ответственный </FormLabel>
                     <FormControl>
                       <Select
                         defaultValue={field.value}
                         onValueChange={field.onChange}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a member" />
+                          <SelectValue placeholder="Выбрать участника" />
                         </SelectTrigger>
                         <SelectContent>
                           {memberOptions.map(member => (
@@ -146,14 +146,14 @@ function CreateTaskForm({
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Status</FormLabel>
+                    <FormLabel>Статус</FormLabel>
                     <FormControl>
                       <Select
                         defaultValue={field.value}
                         onValueChange={field.onChange}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a status" />
+                          <SelectValue placeholder="Выбрать статус" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value={TaskStatus.BACKLOG}>
@@ -179,14 +179,14 @@ function CreateTaskForm({
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Project</FormLabel>
+                    <FormLabel>Проект</FormLabel>
                     <FormControl>
                       <Select
                         defaultValue={field.value}
                         onValueChange={field.onChange}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a project" />
+                          <SelectValue placeholder="Выбрать проект" />
                         </SelectTrigger>
                         <SelectContent>
                           {projectOptions.map(project => (
@@ -219,10 +219,10 @@ function CreateTaskForm({
                 onClick={onCancel}
                 disabled={isPending}
               >
-                Cancel
+                Отменить
               </Button>
               <Button type="submit" disabled={isPending} size="lg">
-                Create Task
+                Создать
               </Button>
             </div>
           </form>

@@ -23,20 +23,20 @@ export const useResetInviteCode = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Something went wrong');
+        throw new Error('Что то пошло не так');
       }
 
       return await response.json();
     },
     onSuccess: ({ data }) => {
-      toast.success('Invite code resetted!');
+      toast.success('Инвайт код обновлен!');
       queryClient.invalidateQueries({ queryKey: ['workspaces'] });
       queryClient.invalidateQueries({
         queryKey: ['workspaces', data.workspace.$id],
       });
     },
     onError: () => {
-      toast.error('Failed to delete workspace!');
+      toast.error('Ошибка при обновлении инвайта!');
     },
   });
 

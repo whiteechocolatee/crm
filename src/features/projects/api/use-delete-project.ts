@@ -23,19 +23,19 @@ export const useDeleteProject = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update project');
+        throw new Error('Ошибка при удалении проекта');
       }
 
       return await response.json();
     },
     onSuccess: ({ data }) => {
-      toast.success('Project updated!');
+      toast.success('Проект удаен!');
       router.refresh();
       queryClient.invalidateQueries({ queryKey: ['projects'] });
       queryClient.invalidateQueries({ queryKey: ['project', data.$id] });
     },
     onError: () => {
-      toast.error('Failed to delete project!');
+      toast.error('Возникла проблема при удалении проекта!');
     },
   });
 

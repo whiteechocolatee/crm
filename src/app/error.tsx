@@ -36,7 +36,7 @@ export default function GlobalError({
           </div>
 
           <h1 className="mb-2 text-2xl font-bold text-gray-900">
-            Something went wrong!
+            Случилась беда, пожалуйста, попробуйте еще раз
           </h1>
 
           <p className="mb-6 text-gray-600">
@@ -51,7 +51,7 @@ export default function GlobalError({
             href="/"
             className="w-full rounded-md bg-red-600 px-4 py-2 text-white transition-colors duration-200 hover:bg-red-700"
           >
-            Back home
+            На главную
           </Link>
         </div>
       </body>

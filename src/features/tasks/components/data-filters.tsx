@@ -19,7 +19,7 @@ type DataFiltersProps = {
   hideProjectFilters?: boolean;
 };
 
-function DataFilters({}: DataFiltersProps) {
+function DataFilters({ hideProjectFilters }: DataFiltersProps) {
   const workspaceId = useWorkspaceId();
 
   const { data: projects, isLoading: isProjectsLoading } = useGetProjects({
@@ -105,26 +105,28 @@ function DataFilters({}: DataFiltersProps) {
           ))}
         </SelectContent>
       </Select>
-      <Select
-        defaultValue={projectId ?? undefined}
-        onValueChange={value => onProjectChange(value)}
-      >
-        <SelectTrigger className="h-8 w-full lg:w-auto">
-          <div className="flex items-center pr-2">
-            <Folder className="mr-2 size-4 text-muted-foreground" />
-            <SelectValue placeholder="Все проекты" />
-          </div>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">Все проекты</SelectItem>
-          <SelectSeparator />
-          {projectOptions?.map(project => (
-            <SelectItem key={project.id} value={project.id}>
-              {project.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      {!hideProjectFilters && (
+        <Select
+          defaultValue={projectId ?? undefined}
+          onValueChange={value => onProjectChange(value)}
+        >
+          <SelectTrigger className="h-8 w-full lg:w-auto">
+            <div className="flex items-center pr-2">
+              <Folder className="mr-2 size-4 text-muted-foreground" />
+              <SelectValue placeholder="Все проекты" />
+            </div>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Все проекты</SelectItem>
+            <SelectSeparator />
+            {projectOptions?.map(project => (
+              <SelectItem key={project.id} value={project.id}>
+                {project.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
       <DatePicker
         placeholder="Дата сдачи"
         className="h-8 w-full lg:w-auto"

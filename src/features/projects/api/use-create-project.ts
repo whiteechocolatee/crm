@@ -17,17 +17,17 @@ export const useCreateProject = () => {
       const response = await client.api.projects.$post({ form });
 
       if (!response.ok) {
-        throw new Error('Failed to create project');
+        throw new Error('Ошибка при создании проекта');
       }
 
       return await response.json();
     },
     onSuccess: () => {
-      toast.success('Project created!');
+      toast.success('Проект создан!');
       queryClient.invalidateQueries({ queryKey: ['projects'] });
     },
     onError: () => {
-      toast.error('Failed to create workspace!');
+      toast.error('Возникла проблема при создании проекта!');
     },
   });
 

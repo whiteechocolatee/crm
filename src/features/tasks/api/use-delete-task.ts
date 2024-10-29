@@ -21,19 +21,19 @@ export const useDeleteTask = () => {
       const response = await client.api.tasks[':taskId']['$delete']({ param });
 
       if (!response.ok) {
-        throw new Error('Failed to delete task');
+        throw new Error('Ошибка при удалении задачи');
       }
 
       return await response.json();
     },
     onSuccess: ({ data }) => {
       router.refresh();
-      toast.success('Task deleted!');
+      toast.success('Задача удалена!');
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       queryClient.invalidateQueries({ queryKey: ['task', data.$id] });
     },
     onError: () => {
-      toast.error('Failed to delete tasks!');
+      toast.error('Возникла проблема при удалении задачи!');
     },
   });
 

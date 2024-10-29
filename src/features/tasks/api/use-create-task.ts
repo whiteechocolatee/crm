@@ -14,17 +14,17 @@ export const useCreateTask = () => {
       const response = await client.api.tasks.$post({ json });
 
       if (!response.ok) {
-        throw new Error('Failed to create task');
+        throw new Error('Ошибка при создании задачи');
       }
 
       return await response.json();
     },
     onSuccess: () => {
-      toast.success('Task created!');
+      toast.success('Задача создана!');
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
     onError: () => {
-      toast.error('Failed to create tasks!');
+      toast.error('Возникла проблема при создании задачи!');
     },
   });
 

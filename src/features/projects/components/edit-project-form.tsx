@@ -43,8 +43,8 @@ function EditProjectForm({ onCancel, initialValues }: EditProjectFormProps) {
   const { mutate, isPending } = useUpdateProject();
 
   const [DeleteDialog, confirmDelete] = useConfirm(
-    'Delete Project',
-    'Are you sure you want to delete this project? This action cannot be undone.',
+    'Удалить проект?',
+    'Вы уверены, что хотите удалить этот проект? Это действие нельзя отменить.',
   );
 
   const form = useForm<z.infer<typeof updateProjectSchema>>({
@@ -78,15 +78,7 @@ function EditProjectForm({ onCancel, initialValues }: EditProjectFormProps) {
       image: values.image instanceof File ? values.image : '',
     };
 
-    mutate(
-      { form: finalValues, param: { projectId: initialValues.$id } },
-      {
-        onSuccess: () => {
-          toast.success('Project updated!');
-          router.refresh();
-        },
-      },
-    );
+    mutate({ form: finalValues, param: { projectId: initialValues.$id } });
   };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,13 +117,9 @@ function EditProjectForm({ onCancel, initialValues }: EditProjectFormProps) {
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Project name</FormLabel>
+                      <FormLabel>Название проекта</FormLabel>
                       <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Project name"
-                          {...field}
-                        />
+                        <Input type="text" placeholder="Волосявка" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -164,7 +152,7 @@ function EditProjectForm({ onCancel, initialValues }: EditProjectFormProps) {
                           </Avatar>
                         )}
                         <div className="flex flex-col">
-                          <p className="text-sm">Project Icon</p>
+                          <p className="text-sm">Иконка проекта</p>
                           <p className="text-[10px] text-muted-foreground">
                             JPG, PNG, JPEG (max 1mb)
                           </p>
@@ -184,7 +172,7 @@ function EditProjectForm({ onCancel, initialValues }: EditProjectFormProps) {
                             className="mt-2 w-fit"
                             onClick={() => inputRef.current?.click()}
                           >
-                            Upload image
+                            Загрузить
                           </Button>
                         </div>
                       </div>
@@ -202,10 +190,10 @@ function EditProjectForm({ onCancel, initialValues }: EditProjectFormProps) {
                   onClick={onCancel}
                   disabled={isPending}
                 >
-                  Cancel
+                  Отменить
                 </Button>
                 <Button type="submit" disabled={isPending} size="lg">
-                  Save changes
+                  Сохранить
                 </Button>
               </div>
             </form>
@@ -216,10 +204,10 @@ function EditProjectForm({ onCancel, initialValues }: EditProjectFormProps) {
       <Card className="h-full w-full border-none shadow-none">
         <CardContent className="p-7">
           <div className="flex flex-col">
-            <h3 className="font-bold">Danger zone</h3>
+            <h3 className="font-bold">Опасная операция</h3>
             <p className="text-sm text-muted-foreground">
-              Deleting a project is irreversible and will remove all associated
-              data
+              Удаление проекта необратимо и приведет к удалению всех связанных с
+              ним данных
             </p>
             <DottedSeparator className="py-7" />
             <Button
@@ -230,7 +218,7 @@ function EditProjectForm({ onCancel, initialValues }: EditProjectFormProps) {
               disabled={isPending}
               onClick={handleDelete}
             >
-              Delete project
+              Удалить
             </Button>
           </div>
         </CardContent>

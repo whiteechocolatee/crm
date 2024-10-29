@@ -14,7 +14,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
   const pathname = usePathname();
 
   const href = pathname === '/sign-in' ? '/sign-up' : '/sign-in';
-  const label = pathname === '/sign-in' ? 'Sign Up' : 'Sign In';
+  const label = pathname === '/sign-in' ? 'Регистрация' : 'Вход';
 
   return (
     <main className="min-h-screen bg-neutral-100">

@@ -22,17 +22,17 @@ export const useUpdateMember = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update member');
+        throw new Error('Ошибка при обновлении участника');
       }
 
       return await response.json();
     },
     onSuccess: () => {
-      toast.success('Member updated!');
+      toast.success('Участник обновлен!');
       queryClient.invalidateQueries({ queryKey: ['members'] });
     },
     onError: () => {
-      toast.error('Failed to update member!');
+      toast.error('Возникла проблема при обновлении участника!');
     },
   });
 

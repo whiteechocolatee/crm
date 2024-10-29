@@ -13,7 +13,6 @@ type RequestType = InferRequestType<
 >;
 
 export const useBulkUpdateTasks = () => {
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
@@ -23,18 +22,17 @@ export const useBulkUpdateTasks = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update task');
+        throw new Error('Ошибка при обновлении');
       }
 
       return await response.json();
     },
-    onSuccess: ({ data }) => {
-      router.refresh();
-      toast.success('Task updated!');
+    onSuccess: () => {
+      toast.success('Задача обновлена!');
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
     },
     onError: () => {
-      toast.error('Failed to update tasks!');
+      toast.error('Возникла проблема при обновлении задачи!');
     },
   });
 

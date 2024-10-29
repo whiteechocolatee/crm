@@ -13,6 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useRegister } from '@/features/auth/api/use-register';
 import { registerSchema } from '@/features/auth/schemas';
+import { signUpWithGoogle } from '@/lib/oauth';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import Link from 'next/link';
@@ -40,7 +41,7 @@ export function SignUpCard() {
   return (
     <Card className="h-full w-full border-none shadow-none md:w-[487px]">
       <CardHeader className="flex items-center justify-center p-7 text-center">
-        <CardTitle className="text-2xl">Sign Up!</CardTitle>
+        <CardTitle className="text-2xl">Регистрация</CardTitle>
       </CardHeader>
       <div className="px-7">
         <DottedSeparator />
@@ -58,7 +59,7 @@ export function SignUpCard() {
                       {...field}
                       disabled={isPending}
                       type="text"
-                      placeholder="Name"
+                      placeholder="Имя"
                     />
                   </FormControl>
                   <FormMessage />
@@ -92,7 +93,7 @@ export function SignUpCard() {
                       {...field}
                       disabled={isPending}
                       type="password"
-                      placeholder="Password"
+                      placeholder="Пароль"
                     />
                   </FormControl>
                   <FormMessage />
@@ -100,7 +101,7 @@ export function SignUpCard() {
               )}
             />
             <Button disabled={isPending} size="lg" className="w-full">
-              Sign Up
+              Зарегистрироваться
             </Button>
           </form>
         </Form>
@@ -114,33 +115,34 @@ export function SignUpCard() {
           size="lg"
           className="w-full"
           disabled={isPending}
+          onClick={() => signUpWithGoogle()}
         >
           <FcGoogle className="mr-2 size-5" />
-          Sign In with Google
+          Войти с Google
         </Button>
-        <Button
+        {/* <Button
           variant="secondary"
           size="lg"
           className="w-full"
           disabled={isPending}
         >
           <FaGithub className="mr-2 size-5" />
-          Sign In with GitHub
-        </Button>
+          Войти с GitHub
+        </Button> */}
       </CardContent>
       <div className="px-7">
         <DottedSeparator />
       </div>
       <CardContent className="flex items-center justify-center gap-1 p-7 text-xs text-muted-foreground">
-        If you already have an account please{' '}
+        Уже есть аккаунт?{' '}
         <Link
           aria-disabled={isPending}
           className="text-blue-700 underline"
           href="/sign-in"
         >
-          sign in
+          Войдите
         </Link>{' '}
-        into it.
+        здесь.
       </CardContent>
     </Card>
   );

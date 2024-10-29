@@ -68,7 +68,7 @@ function UserButton() {
           className="flex h-10 cursor-pointer items-center justify-center font-medium text-amber-700"
         >
           <LogOut className="mr-2 size-4" />
-          Log out
+          Выйти
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
