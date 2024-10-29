@@ -47,7 +47,7 @@ function ProjectIdClient() {
               href={`/workspaces/${initialValues.workspaceId}}/projects/${projectId}/settings`}
             >
               <Pencil className="mr-2 size-4" />
-              Edit Project
+              Редактировать
             </Link>
           </Button>
         </div>

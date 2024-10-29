@@ -11,9 +11,9 @@ export default function Loading() {
           </div>
         </div>
         <div className="space-y-2">
-          <h2 className="text-xl font-semibold text-gray-900">Loading...</h2>
+          <h2 className="text-xl font-semibold text-gray-900">Загрузка...</h2>
           <p className="text-sm text-gray-500">
-            Please wait while we prepare your content
+            Пожалуйста, подождите, пока мы подготовим ваше содержимое
           </p>
         </div>
         <div className="mx-auto w-full max-w-md">
@@ -37,15 +37,15 @@ export default function Loading() {
               d="M5 13l4 4L19 7"
             />
           </svg>
-          <span>Connecting</span>
+          <span>Подключение</span>
         </div>
         <div className="flex items-center">
           <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-blue-600 border-t-transparent"></div>
-          <span>Loading</span>
+          <span>Загрузка</span>
         </div>
         <div className="flex items-center opacity-50">
           <div className="mr-2 h-4 w-4 rounded-full border-2 border-gray-300"></div>
-          <span>Finalizing</span>
+          <span>Финал</span>
         </div>
       </div>
 

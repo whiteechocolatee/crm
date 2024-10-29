@@ -24,7 +24,7 @@ function Projects() {
   return (
     <div className="flex flex-col gap-y-2">
       <div className="flex items-center justify-between">
-        <p className="text-xs uppercase text-neutral-500">Projects</p>
+        <p className="text-xs uppercase text-neutral-500">Проекты</p>
         <RiAddCircleFill
           onClick={open}
           className="size-5 cursor-pointer text-neutral-500 transition hover:opacity-75"
@@ -52,7 +52,7 @@ function Projects() {
         })
       ) : (
         <div className="flex cursor-pointer items-center gap-2.5 rounded-md p-2.5 pl-0 text-sm text-neutral-500 transition hover:opacity-75">
-          No projects found
+          Нет проектов
         </div>
       )}
     </div>

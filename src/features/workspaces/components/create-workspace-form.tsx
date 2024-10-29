@@ -68,7 +68,7 @@ function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
     <Card className="h-full w-full border-none shadow-none">
       <CardHeader className="flex p-7">
         <CardTitle className="text-xl font-bold">
-          Create a new Workspace
+          Создать новую рабочую область
         </CardTitle>
       </CardHeader>
       <div className="px-7">
@@ -83,13 +83,9 @@ function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Workspace name</FormLabel>
+                    <FormLabel>Название рабочей область</FormLabel>
                     <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Workspace name"
-                        {...field}
-                      />
+                      <Input type="text" placeholder="ITPEDIA" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -122,7 +118,7 @@ function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
                         </Avatar>
                       )}
                       <div className="flex flex-col">
-                        <p className="text-sm">Workspace Icon</p>
+                        <p className="text-sm">Иконка рабочей области</p>
                         <p className="text-[10px] text-muted-foreground">
                           JPG, SVG, PNG, JPEG (max 1mb)
                         </p>
@@ -142,7 +138,7 @@ function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
                           className="mt-2 w-fit"
                           onClick={() => inputRef.current?.click()}
                         >
-                          Upload image
+                          Загрузить
                         </Button>
                       </div>
                     </div>
@@ -160,10 +156,10 @@ function CreateWorkspaceForm({ onCancel }: CreateWorkspaceFormProps) {
                 onClick={onCancel}
                 disabled={isPending}
               >
-                Cancel
+                Отменить
               </Button>
               <Button type="submit" disabled={isPending} size="lg">
-                Create Workspace
+                Создать
               </Button>
             </div>
           </form>

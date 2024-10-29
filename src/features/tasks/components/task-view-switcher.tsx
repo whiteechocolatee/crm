@@ -67,18 +67,18 @@ function TaskViewSwitcher({ hideProjectFilters }: TaskViewSwitcherProps) {
         <div className="flex flex-col items-center justify-between gap-y-2 lg:flex-row">
           <TabsList defaultValue="table" className="w-full lg:w-auto">
             <TabsTrigger className="h-8 w-full lg:w-auto" value="table">
-              Table
+              Таблица
             </TabsTrigger>
             <TabsTrigger className="h-8 w-full lg:w-auto" value="kanban">
               Kanban
             </TabsTrigger>
             <TabsTrigger className="h-8 w-full lg:w-auto" value="calendar">
-              Calendar
+              Календарь
             </TabsTrigger>
           </TabsList>
           <Button onClick={open} size="sm" className="w-full lg:w-auto">
             <Plus className="mr-2 size-4" />
-            New
+            Создать
           </Button>
         </div>
         <DottedSeparator className="my-4" />

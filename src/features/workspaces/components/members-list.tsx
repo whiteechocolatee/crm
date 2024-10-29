@@ -25,8 +25,8 @@ import { useConfirm } from '@/hooks/use-confirm';
 
 function MemberList() {
   const [ConfirmDialog, handleConfirm] = useConfirm(
-    'Delete Member',
-    'Are you sure you want to delete this member? After deleting, the member will no longer be able to access the workspace, and all of their data will be deleted.',
+    'Удалить участника',
+    'Вы уверены, что хотите удалить этого пользователя? После удаления участник больше не сможет получить доступ к рабочему пространству, а все его данные будут удалены.',
   );
 
   const workspaceId = useWorkspaceId();
@@ -66,7 +66,7 @@ function MemberList() {
     <Card className="h-full w-full border-none shadow-none">
       <ConfirmDialog />
       <CardHeader className="flex flex-row items-center justify-between gap-x-4 space-y-0 p-7">
-        <CardTitle className="text-2xl font-bold">Members list</CardTitle>
+        <CardTitle className="text-2xl font-bold">Список участников</CardTitle>
         <Button variant="secondary" size="sm" asChild>
           <Link href={`/workspaces/${workspaceId}`}>
             <X className="size-4" />
@@ -114,7 +114,7 @@ function MemberList() {
                     }
                     disabled={isPending}
                   >
-                    Set as Administrator
+                    Назначить админом
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     className="cursor-pointer font-medium"
@@ -123,14 +123,14 @@ function MemberList() {
                     }
                     disabled={isPending}
                   >
-                    Set as Member
+                    Назначить участником
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     className="cursor-pointer font-medium text-amber-700"
                     onClick={() => handleDeleteMember(member.$id)}
                     disabled={isPending}
                   >
-                    Remove {member.name}
+                    Удалить {member.name}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

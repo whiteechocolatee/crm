@@ -48,12 +48,12 @@ function EditWorkspaceForm({
   const { mutate, isPending } = useUpdateWorkspace();
 
   const [DeleteDialog, confirmDelete] = useConfirm(
-    'Delete Workspace',
-    'Are you sure you want to delete this workspace? This action cannot be undone.',
+    'Удалить рабочую область',
+    'Вы уверены, что хотите удалить это рабочую область? Это действие нельзя отменить.',
   );
   const [ResetDialog, confirmReset] = useConfirm(
-    'Reset Invite code',
-    'This will invalidate the current invite link and generate a new one.',
+    'Сброс кода приглашения',
+    'Это приведет к аннулированию текущей ссылки на приглашение и созданию новой.',
   );
 
   const form = useForm<z.infer<typeof updateWorkspaceSchema>>({
@@ -156,13 +156,9 @@ function EditWorkspaceForm({
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Workspace name</FormLabel>
+                      <FormLabel>Название рабочей области</FormLabel>
                       <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Workspace name"
-                          {...field}
-                        />
+                        <Input type="text" placeholder="ITPEDIA" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -195,7 +191,7 @@ function EditWorkspaceForm({
                           </Avatar>
                         )}
                         <div className="flex flex-col">
-                          <p className="text-sm">Workspace Icon</p>
+                          <p className="text-sm">Иконка рабочей области</p>
                           <p className="text-[10px] text-muted-foreground">
                             JPG, PNG, JPEG (max 1mb)
                           </p>
@@ -215,7 +211,7 @@ function EditWorkspaceForm({
                             className="mt-2 w-fit"
                             onClick={() => inputRef.current?.click()}
                           >
-                            Upload image
+                            Загрузить
                           </Button>
                         </div>
                       </div>
@@ -233,10 +229,10 @@ function EditWorkspaceForm({
                   onClick={onCancel}
                   disabled={isPending}
                 >
-                  Cancel
+                  Отменить
                 </Button>
                 <Button type="submit" disabled={isPending} size="lg">
-                  Save changes
+                  Сохранить
                 </Button>
               </div>
             </form>
@@ -246,9 +242,10 @@ function EditWorkspaceForm({
       <Card className="h-full w-full border-none shadow-none">
         <CardContent className="p-7">
           <div className="flex flex-col">
-            <h3 className="font-bold">Invite Members</h3>
+            <h3 className="font-bold">Пригласить участников</h3>
             <p className="text-sm text-muted-foreground">
-              Use the invite link below to invite members to your workspace
+              Чтобы пригласить участников в свою рабочую область, воспользуйтесь
+              приведенной ниже ссылкой для приглашения.
             </p>
             <div className="mt-4">
               <div className="flex items-center gap-x-2">
@@ -271,7 +268,7 @@ function EditWorkspaceForm({
               disabled={isResettingInvite || isPending}
               onClick={handleReset}
             >
-              Reset invite link
+              Обновить ссылку
             </Button>
           </div>
         </CardContent>
@@ -279,10 +276,10 @@ function EditWorkspaceForm({
       <Card className="h-full w-full border-none shadow-none">
         <CardContent className="p-7">
           <div className="flex flex-col">
-            <h3 className="font-bold">Danger zone</h3>
+            <h3 className="font-bold">Опасная операция</h3>
             <p className="text-sm text-muted-foreground">
-              Deleting a workspace is irreversible and will remove all
-              associated data
+              Удаление рабочей области удалит всю информацию о ней (участники,
+              задачи, и проекты).
             </p>
             <DottedSeparator className="py-7" />
             <Button
@@ -293,7 +290,7 @@ function EditWorkspaceForm({
               disabled={isPending || isDeletingWorkspace}
               onClick={handleDelete}
             >
-              Delete workspace
+              Удалить
             </Button>
           </div>
         </CardContent>

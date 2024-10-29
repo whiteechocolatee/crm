@@ -12,7 +12,7 @@ function Analytics({ data }: ProjectAnalyticsResponseType) {
       <div className="flex w-full flex-row">
         <div className="flex flex-1 items-center">
           <AnalyticsCard
-            title="Total Tasks"
+            title="Все задачи"
             value={data.taskCount}
             variant={data.taskDifference > 0 ? 'up' : 'down'}
             increasingValue={data.taskDifference}
@@ -21,7 +21,7 @@ function Analytics({ data }: ProjectAnalyticsResponseType) {
         </div>
         <div className="flex flex-1 items-center">
           <AnalyticsCard
-            title="Assigned Tasks"
+            title="Назначенные задания"
             value={data.assignedTaskCount}
             variant={data.assignedTaskDifference > 0 ? 'up' : 'down'}
             increasingValue={data.assignedTaskDifference}
@@ -30,7 +30,7 @@ function Analytics({ data }: ProjectAnalyticsResponseType) {
         </div>
         <div className="flex flex-1 items-center">
           <AnalyticsCard
-            title="Completed Tasks"
+            title="Выполненные задания"
             value={data.completeTaskCount}
             variant={data.completeTaskDifference > 0 ? 'up' : 'down'}
             increasingValue={data.completeTaskDifference}
@@ -39,7 +39,7 @@ function Analytics({ data }: ProjectAnalyticsResponseType) {
         </div>
         <div className="flex flex-1 items-center">
           <AnalyticsCard
-            title="Overdue Tasks"
+            title="Просроченные задачи"
             value={data.overdueTaskCount}
             variant={data.overdueTaskDifference > 0 ? 'up' : 'down'}
             increasingValue={data.overdueTaskDifference}
@@ -48,12 +48,11 @@ function Analytics({ data }: ProjectAnalyticsResponseType) {
         </div>
         <div className="flex flex-1 items-center">
           <AnalyticsCard
-            title="Incomplete Tasks"
+            title="Незавершенные задачи"
             value={data.incompleteTaskCount}
             variant={data.incompleteTaskDifference > 0 ? 'up' : 'down'}
             increasingValue={data.incompleteTaskDifference}
           />
-          <DottedSeparator direction="vertical" />
         </div>
       </div>
       <ScrollBar orientation="horizontal" />

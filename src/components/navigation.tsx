@@ -14,25 +14,25 @@ import {
 
 const routes = [
   {
-    label: 'Home',
+    label: 'Главная',
     href: '',
     icon: GoHome,
     activeIcon: GoHomeFill,
   },
   {
-    label: 'My tasks',
+    label: 'Мои задачи',
     href: '/tasks',
     icon: GoCheckCircle,
     activeIcon: GoCheckCircleFill,
   },
   {
-    label: 'Settings',
+    label: 'Настройки',
     href: '/settings',
     icon: SettingsIcon,
     activeIcon: SettingsIcon,
   },
   {
-    label: 'Members',
+    label: 'Участники',
     href: '/members',
     icon: UsersIcon,
     activeIcon: UsersIcon,
