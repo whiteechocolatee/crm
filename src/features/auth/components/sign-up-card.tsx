@@ -13,6 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useRegister } from '@/features/auth/api/use-register';
 import { registerSchema } from '@/features/auth/schemas';
+import { signUpWithGoogle } from '@/lib/oauth';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import Link from 'next/link';
@@ -114,11 +115,12 @@ export function SignUpCard() {
           size="lg"
           className="w-full"
           disabled={isPending}
+          onClick={() => signUpWithGoogle()}
         >
           <FcGoogle className="mr-2 size-5" />
           Войти с Google
         </Button>
-        <Button
+        {/* <Button
           variant="secondary"
           size="lg"
           className="w-full"
@@ -126,7 +128,7 @@ export function SignUpCard() {
         >
           <FaGithub className="mr-2 size-5" />
           Войти с GitHub
-        </Button>
+        </Button> */}
       </CardContent>
       <div className="px-7">
         <DottedSeparator />

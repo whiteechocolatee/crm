@@ -19,7 +19,7 @@ import { FcGoogle } from 'react-icons/fc';
 import z from 'zod';
 import { loginSchema } from '../schemas';
 import { useLogin } from '../api/use-login';
-import { signUpWithGithub } from '@/lib/oauth';
+import { signUpWithGithub, signUpWithGoogle } from '@/lib/oauth';
 
 export function SignInCard() {
   const { mutate, isPending } = useLogin();
@@ -96,11 +96,12 @@ export function SignInCard() {
           variant="secondary"
           size="lg"
           className="w-full"
+          onClick={() => signUpWithGoogle()}
         >
           <FcGoogle className="mr-2 size-5" />
           Войти с Google
         </Button>
-        <Button
+        {/* <Button
           disabled={isPending}
           onClick={() => signUpWithGithub()}
           variant="secondary"
@@ -109,7 +110,7 @@ export function SignInCard() {
         >
           <FaGithub className="mr-2 size-5" />
           Войти с GitHub
-        </Button>
+        </Button> */}
       </CardContent>
       <div className="px-7">
         <DottedSeparator />
