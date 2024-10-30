@@ -31,6 +31,7 @@ import { z } from 'zod';
 import { useUpdateTask } from '../api/use-update-task';
 import { createTaskSchema } from '../schemas';
 import { Task, TaskStatus } from '../types';
+import { Combobox } from '@/components/ui/combobox';
 
 type EditTaskFormProps = {
   onCancel?: () => void;
@@ -188,7 +189,7 @@ function EditTaskForm({
                   <FormItem>
                     <FormLabel>Проект</FormLabel>
                     <FormControl>
-                      <Select
+                      {/* <Select
                         defaultValue={field.value}
                         onValueChange={field.onChange}
                       >
@@ -209,7 +210,8 @@ function EditTaskForm({
                             </SelectItem>
                           ))}
                         </SelectContent>
-                      </Select>
+                      </Select> */}
+                      <Combobox initialValue={field.value} projectOptions={projectOptions} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
