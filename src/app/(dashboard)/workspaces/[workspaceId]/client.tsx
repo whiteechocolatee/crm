@@ -4,6 +4,12 @@ import Analytics from '@/components/analytics';
 import DottedSeparator from '@/components/dotted-separator';
 import PageLoader from '@/components/page-loader';
 import { Button } from '@/components/ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { Card, CardContent } from '@/components/ui/card';
 import { useGetMembers } from '@/features/members/api/use-get-members';
 import MemberAvatar from '@/features/members/components/member-avatar';
@@ -14,7 +20,7 @@ import { useCreateProjectsModal } from '@/features/projects/hooks/use-create-pro
 import { ProjectsType } from '@/features/projects/types';
 import { useGetTasks } from '@/features/tasks/api/use-get-tasks';
 import { useCreateTaskModal } from '@/features/tasks/hooks/use-create-task-modal';
-import { Task } from '@/features/tasks/types';
+import { Task, TaskStatus } from '@/features/tasks/types';
 import { useGetWorkspaceAnalytics } from '@/features/workspaces/api/use-get-workspace-analytics';
 import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
 import { formatDistanceToNow } from 'date-fns';
@@ -94,36 +100,61 @@ const TaskList = ({
     <div className="col-span-1 flex flex-col gap-y-4">
       <div className="rounded-lg bg-muted p-4">
         <div className="flex items-center justify-between">
-          <p className="text-lg font-semibold">Общее кол-во задач ({total})</p>
+          <div className="flex flex-col gap-y-1">
+            <p className="text-lg font-semibold">
+              Общее кол-во задач ({total})
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Здесь отображаются первые 8 задач в статусе "In Progress"
+            </p>
+          </div>
           <Button variant="muted" size="icon" onClick={createTask}>
             <Plus className="size-4 text-neutral-400" />
           </Button>
         </div>
         <DottedSeparator className="my-4" />
         <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          {tasks.map(task => (
-            <li key={task.$id}>
-              <Link href={`/workspaces/${workspaceId}/tasks/${task.$id}`}>
-                <Card className="rounded-lg shadow-none transition hover:opacity-75">
-                  <CardContent className="p-4">
-                    <p className="truncate text-lg font-medium">{task.name}</p>
-                    <div className="flex items-center gap-x-2">
-                      <p>{task.project?.name}</p>
-                      <div className="size-1 rounded-full bg-neutral-300" />
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <Calendar className="mr-1 size-3" />
-                        <span className="truncate">
-                          {formatDistanceToNow(task.dueDate, {
-                            locale: ru,
-                          })}
-                        </span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            </li>
-          ))}
+          {tasks
+            .filter(task => task.status === TaskStatus.IN_PROGRESS)
+            .slice(0, 8)
+            .map(task => (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <li key={task.$id}>
+                      <Link
+                        href={`/workspaces/${workspaceId}/tasks/${task.$id}`}
+                      >
+                        <Card className="rounded-lg shadow-none transition hover:opacity-75">
+                          <CardContent className="p-4">
+                            <p className="truncate text-lg font-medium">
+                              {task.name}
+                            </p>
+                            <div className="flex items-center gap-x-2">
+                              <p className="line-clamp-1 text-sm text-muted-foreground">
+                                {task.project?.name}
+                              </p>
+                              <div className="size-1 rounded-full bg-neutral-300" />
+                              <div className="flex items-center text-sm text-muted-foreground">
+                                <Calendar className="mr-1 size-3" />
+                                <span className="truncate">
+                                  {formatDistanceToNow(task.dueDate, {
+                                    locale: ru,
+                                  })}
+                                </span>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    </li>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    Задача выполняется: {task.assignee?.name}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ))}
           <li className="hidden text-center text-sm text-muted-foreground first-of-type:block">
             Задач не найдено
           </li>
@@ -151,9 +182,11 @@ const ProjectList = ({
     <div className="col-span-1 flex flex-col gap-y-4">
       <div className="rounded-lg border bg-white p-4">
         <div className="flex items-center justify-between">
-          <p className="text-lg font-semibold">
-            Общее кол-во проектов ({total})
-          </p>
+          <div className="flex flex-col gap-y-1">
+            <p className="text-lg font-semibold">
+              Общее кол-во проектов ({total})
+            </p>
+          </div>
           <Button variant="secondary" size="icon" onClick={createProject}>
             <Plus className="size-4 text-neutral-400" />
           </Button>
