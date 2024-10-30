@@ -68,17 +68,17 @@ function WorkspaceIdClient() {
           tasks={tasks.documents}
           total={tasks.total}
         />
-        <ProjectList
-          workspaceId={workspaceId}
-          projects={projects.documents}
-          total={projects.total}
-        />
         <MembersList
           workspaceId={workspaceId}
           members={members.documents}
           total={members.total}
         />
       </div>
+      <ProjectList
+        workspaceId={workspaceId}
+        projects={projects.documents}
+        total={projects.total}
+      />
     </div>
   );
 }
@@ -192,7 +192,7 @@ const ProjectList = ({
           </Button>
         </div>
         <DottedSeparator className="my-4" />
-        <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map(project => (
             <li key={project.$id}>
               <Link href={`/workspaces/${workspaceId}/projects/${project.$id}`}>

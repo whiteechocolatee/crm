@@ -4,6 +4,7 @@ import DatePicker from '@/components/date-picker';
 import DottedSeparator from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Combobox } from '@/components/ui/combobox';
 import {
   Form,
   FormControl,
@@ -13,14 +14,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
-import { cn } from '@/lib/utils';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { useCreateTask } from '../api/use-create-task';
-import { createTaskSchema } from '../schemas';
 import {
   Select,
   SelectContent,
@@ -29,8 +22,15 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import MemberAvatar from '@/features/members/components/member-avatar';
+import { useWorkspaceId } from '@/features/workspaces/hooks/use-workspace-id';
+import { cn } from '@/lib/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { useCreateTask } from '../api/use-create-task';
+import { createTaskSchema } from '../schemas';
 import { TaskStatus } from '../types';
-import ProjectsAvatar from '@/features/projects/components/projects-avatar';
+import { useProjectId } from '@/features/projects/hooks/use-project-id';
 
 type CreateTaskFormProps = {
   onCancel?: () => void;
@@ -44,7 +44,7 @@ function CreateTaskForm({
   memberOptions,
 }: CreateTaskFormProps) {
   const workspaceId = useWorkspaceId();
-  const router = useRouter();
+  const projectId = useProjectId();
   const { mutate, isPending } = useCreateTask();
 
   const form = useForm<z.infer<typeof createTaskSchema>>({
@@ -181,7 +181,7 @@ function CreateTaskForm({
                   <FormItem>
                     <FormLabel>Проект</FormLabel>
                     <FormControl>
-                      <Select
+                      {/* <Select
                         defaultValue={field.value}
                         onValueChange={field.onChange}
                       >
@@ -202,7 +202,12 @@ function CreateTaskForm({
                             </SelectItem>
                           ))}
                         </SelectContent>
-                      </Select>
+                      </Select> */}
+                      <Combobox
+                        initialValue={projectId ? projectId : ''}
+                        projectOptions={projectOptions}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
