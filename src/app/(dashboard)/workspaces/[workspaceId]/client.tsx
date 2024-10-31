@@ -254,7 +254,7 @@ const MembersList = ({
                     <p className="line-clamp-1 truncate text-lg font-medium">
                       {member?.name}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-[10px] text-muted-foreground">
                       {member?.email}
                     </p>
                   </div>
