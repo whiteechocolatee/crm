@@ -35,7 +35,7 @@ const app = new Hono()
       const projects = await databases.listDocuments<ProjectsType>(
         DATABASE_ID,
         PROJECTS_ID,
-        [Query.equal('workspaceId', workspaceId)],
+        [Query.equal('workspaceId', workspaceId), Query.limit(100)],
       );
 
       return c.json({ data: projects });

@@ -110,6 +110,7 @@ const app = new Hono()
       const query = [
         Query.equal('workspaceId', workspaceId),
         Query.orderDesc('$createdAt'),
+        Query.limit(100),
       ];
 
       if (projectId) {
