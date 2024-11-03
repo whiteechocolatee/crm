@@ -59,13 +59,17 @@ function WorkspaceIdClient() {
     throw new Error('Что то пошло не так....');
   }
 
+  const tasksInProgress = tasks.documents
+    .filter(task => task.status === TaskStatus.IN_PROGRESS)
+    .slice(0, 8);
+
   return (
     <div className="flex h-full flex-col space-y-4">
       <Analytics data={analytics} />
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
         <TaskList
           workspaceId={workspaceId}
-          tasks={tasks.documents}
+          tasks={tasksInProgress}
           total={tasks.total}
         />
         <MembersList
@@ -114,47 +118,42 @@ const TaskList = ({
         </div>
         <DottedSeparator className="my-4" />
         <ul className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          {tasks
-            .filter(task => task.status === TaskStatus.IN_PROGRESS)
-            .slice(0, 8)
-            .map(task => (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <li key={task.$id}>
-                      <Link
-                        href={`/workspaces/${workspaceId}/tasks/${task.$id}`}
-                      >
-                        <Card className="rounded-lg shadow-none transition hover:opacity-75">
-                          <CardContent className="p-4">
-                            <p className="truncate text-lg font-medium">
-                              {task.name}
+          {tasks.map(task => (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <li key={task.$id}>
+                    <Link href={`/workspaces/${workspaceId}/tasks/${task.$id}`}>
+                      <Card className="rounded-lg shadow-none transition hover:opacity-75">
+                        <CardContent className="p-4">
+                          <p className="truncate text-lg font-medium">
+                            {task.name}
+                          </p>
+                          <div className="flex items-center gap-x-2">
+                            <p className="line-clamp-1 text-sm text-muted-foreground">
+                              {task.project?.name}
                             </p>
-                            <div className="flex items-center gap-x-2">
-                              <p className="line-clamp-1 text-sm text-muted-foreground">
-                                {task.project?.name}
-                              </p>
-                              <div className="size-1 rounded-full bg-neutral-300" />
-                              <div className="flex items-center text-sm text-muted-foreground">
-                                <Calendar className="mr-1 size-3" />
-                                <span className="truncate">
-                                  {formatDistanceToNow(task.dueDate, {
-                                    locale: ru,
-                                  })}
-                                </span>
-                              </div>
+                            <div className="size-1 rounded-full bg-neutral-300" />
+                            <div className="flex items-center text-sm text-muted-foreground">
+                              <Calendar className="mr-1 size-3" />
+                              <span className="truncate">
+                                {formatDistanceToNow(task.dueDate, {
+                                  locale: ru,
+                                })}
+                              </span>
                             </div>
-                          </CardContent>
-                        </Card>
-                      </Link>
-                    </li>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    Задача выполняется: {task.assignee?.name}
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  </li>
+                </TooltipTrigger>
+                <TooltipContent>
+                  Задача выполняется: {task.assignee?.name}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          ))}
           <li className="hidden text-center text-sm text-muted-foreground first-of-type:block">
             Задач не найдено
           </li>
