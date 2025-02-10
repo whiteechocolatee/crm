@@ -37,7 +37,7 @@ function Projects() {
       <div className="relative">
         <Input
           type="text"
-          placeholder="Волосатый"
+          placeholder="Название проекта"
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
         />
