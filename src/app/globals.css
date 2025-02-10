@@ -85,3 +85,12 @@ body {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.ql-editor {
+  min-height: 200px;
+  font-size: 1rem;
+}
+
+.ql-container {
+  font-family: inherit;
+}

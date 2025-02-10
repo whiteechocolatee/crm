@@ -119,7 +119,7 @@ function EditProjectForm({ onCancel, initialValues }: EditProjectFormProps) {
                     <FormItem>
                       <FormLabel>Название проекта</FormLabel>
                       <FormControl>
-                        <Input type="text" placeholder="Волосявка" {...field} />
+                        <Input type="text" placeholder="'Проект'" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
