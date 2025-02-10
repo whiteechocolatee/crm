@@ -2,6 +2,7 @@ import auth from '@/features/auth/server/route';
 import tasks from '@/features/tasks/server/route';
 import members from '@/features/members/server/route';
 import projects from '@/features/projects/server/route';
+import telegram from '@/features/telegram/server/route';
 import workspaces from '@/features/workspaces/server/route';
 
 import { Hono } from 'hono';
@@ -14,6 +15,7 @@ const routes = app
   .route('/tasks', tasks)
   .route('/members', members)
   .route('/projects', projects)
+  .route('/telegram', telegram)
   .route('/workspaces', workspaces);
 
 export const GET = handle(app);
