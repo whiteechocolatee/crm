@@ -8,9 +8,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Loader, LogOut } from 'lucide-react';
+import { Copy, Loader, LogOut } from 'lucide-react';
 import { useCurrent } from '../api/use-current';
 import { useLogout } from '../api/use-logout';
+import Hint from '@/components/hint';
 
 function UserButton() {
   const { data: user, isLoading } = useCurrent();
@@ -33,6 +34,10 @@ function UserButton() {
   const avatarFallback = name
     ? name.charAt(0).toUpperCase()
     : (email.charAt(0).toUpperCase() ?? '?');
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(user.$id);
+  };
 
   return (
     <DropdownMenu modal={false}>
@@ -60,6 +65,17 @@ function UserButton() {
               {name || 'User'}
             </p>
             <p className="text-sm text-neutral-500">{email}</p>
+            <Hint label="Копировать ID">
+              <p
+                onClick={handleCopy}
+                className="mt-3 flex w-full cursor-pointer items-center justify-center rounded-2xl bg-neutral-100/80 p-4 text-sm text-neutral-500"
+              >
+                <span className="line-clamp-1 truncate text-xs">
+                  {user.$id}
+                </span>
+                <Copy className="ml-2 size-4" />
+              </p>
+            </Hint>
           </div>
         </div>
         <DottedSeparator className="mb-1" />
