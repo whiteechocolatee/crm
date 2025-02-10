@@ -44,6 +44,14 @@ app
 
     return c.json({ data: workspaces });
   })
+  .post('/set-webhook', async c => {
+    console.log('Webhook received!');
+
+    const body = await c.req.json();
+    console.log('Telegram Data:', body);
+
+    return c.json({ success: true });
+  })
   .get('/', async c => {
     return c.json({
       success: true,
