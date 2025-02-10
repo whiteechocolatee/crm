@@ -15,7 +15,6 @@ const routes = app
   .route('/tasks', tasks)
   .route('/members', members)
   .route('/projects', projects)
-  .route('/telegram', telegram)
   .route('/workspaces', workspaces);
 
 export const GET = handle(app);
